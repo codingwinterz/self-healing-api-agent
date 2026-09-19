@@ -1,0 +1,53 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Payments API (Stripe-like)",
+    "version": "2025-09-01"
+  },
+  "paths": {
+    "/v1/products": {
+      "post": {
+        "operationId": "createProduct",
+        "summary": "Create a product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["unit_price", "currency"],
+                "properties": {
+                  "unit_price": { "type": "integer" },
+                  "currency": { "type": "string" },
+                  "is_active": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A product object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Product" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "unit_price": { "type": "integer" },
+          "currency": { "type": "string" },
+          "is_active": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Payments API (Stripe-like)",
+    "version": "2024-06-20"
+  },
+  "paths": {
+    "/v1/charges": {
+      "post": {
+        "operationId": "createCharge",
+        "summary": "Create a charge",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["amount", "currency", "source"],
+                "properties": {
+                  "amount": { "type": "integer" },
+                  "currency": { "type": "string" },
+                  "source": { "type": "string" },
+                  "description": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A charge object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Charge" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/charges/{id}": {
+      "get": {
+        "operationId": "retrieveCharge",
+        "summary": "Retrieve a charge",
+        "responses": {
+          "200": {
+            "description": "A charge object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Charge" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/customers": {
+      "post": {
+        "operationId": "createCustomer",
+        "summary": "Create a customer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [],
+                "properties": {
+                  "email": { "type": "string" },
+                  "description": { "type": "string" },
+                  "balance": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A customer object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Customer" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/refunds": {
+      "post": {
+        "operationId": "createRefund",
+        "summary": "Create a refund",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["charge"],
+                "properties": {
+                  "charge": { "type": "string" },
+                  "amount": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A refund object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Refund" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Charge": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "amount": { "type": "integer" },
+          "currency": { "type": "string" },
+          "status": { "type": "string", "enum": ["succeeded", "pending", "failed"] },
+          "captured": { "type": "boolean" },
+          "customer": { "type": "string" }
+        }
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "email": { "type": "string" },
+          "balance": { "type": "integer" },
+          "description": { "type": "string" }
+        }
+      },
+      "Refund": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "charge": { "type": "string" },
+          "amount": { "type": "integer" },
+          "status": { "type": "string" }
+        }
+      }
+    }
+  }
+}
