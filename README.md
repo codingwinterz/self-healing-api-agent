@@ -1,5 +1,7 @@
 # Self-Healing API Integration Agent
 
+[![CI](https://github.com/codingwinterz/self-healing-api-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/codingwinterz/self-healing-api-agent/actions/workflows/ci.yml)
+
 An autonomous agent that watches a third-party API for breaking changes, finds every place in a codebase the change would bite, and opens a ready-to-review pull request with the fix — closing the loop between "the API changed" and "the code still works."
 
 > **Measured on the included benchmark:** 7/10 seeded breaking changes mechanically resolved, 3/10 correctly escalated to a human (removed response fields — no mechanical fix exists), 0 invalid patches shipped. Run `python eval/run_eval.py` to reproduce.
